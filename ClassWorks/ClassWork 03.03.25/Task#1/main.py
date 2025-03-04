@@ -1,3 +1,4 @@
+# https://basecamp.eolymp.com/uk/problems/1540
 def solve(nums: list[int]) -> bool:
     from itertools import permutations
 
