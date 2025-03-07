@@ -15,7 +15,7 @@ def solve(income: int, vouchers: list[tuple], day) -> None:
 
 
 if __name__ == '__main__':
-    with open("input.txt") as f:    
+    with open("input.txt") as f:
         n = int(f.readline())
         vouchers = []
         for _ in range(n):
