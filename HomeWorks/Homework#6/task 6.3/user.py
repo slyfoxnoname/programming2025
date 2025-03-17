@@ -1,74 +1,80 @@
-class HashTable:
+class Library:
     def __init__(self, size=1000):
         self.size = size
         self.table = [None] * size
+        self.occupied = 0
 
-    def _hash(self, key, attempt=0):
-        return (hash(key) + attempt) % self.size
+    def _hash(self, author, title):
+        return (hash(author) + hash(title)) % self.size
 
-    def insert(self, key, value):
-        attempt = 0
-        while attempt < self.size:
-            idx = self._hash(key, attempt)
-            if self.table[idx] is None or self.table[idx][0] == key:
-                self.table[idx] = (key, value)
+    def _probe(self, index):
+        return (index + 1) % self.size
+
+    def addBook(self, author, title):
+        if self.occupied >= self.size:
+            raise Exception("Library is full")
+
+        index = self._hash(author, title)
+
+        while self.table[index] is not None and self.table[index] != "DELETED":
+            if self.table[index] == (author, title):
+                return  # Book already in library
+            index = self._probe(index)
+
+        self.table[index] = (author, title)
+        self.occupied += 1
+
+    def find(self, author, title):
+        index = self._hash(author, title)
+
+        for _ in range(self.size):
+            if self.table[index] is None:
+                return False
+            if self.table[index] == (author, title):
+                return True
+            index = self._probe(index)
+
+        return False
+
+    def delete(self, author, title):
+        index = self._hash(author, title)
+
+        for _ in range(self.size):
+            if self.table[index] is None:
                 return
-            attempt += 1
-        raise Exception("HashTable is full")
-
-    def get(self, key):
-        attempt = 0
-        while attempt < self.size:
-            idx = self._hash(key, attempt)
-            if self.table[idx] is None:
-                return None
-            if self.table[idx][0] == key:
-                return self.table[idx][1]
-            attempt += 1
-        return None
-
-    def delete(self, key):
-        attempt = 0
-        while attempt < self.size:
-            idx = self._hash(key, attempt)
-            if self.table[idx] is None:
+            if self.table[index] == (author, title):
+                self.table[index] = "DELETED"
+                self.occupied -= 1
                 return
-            if self.table[idx][0] == key:
-                self.table[idx] = None
-                return
-            attempt += 1
+            index = self._probe(index)
+
+    def findByAuthor(self, author):
+        books = []
+        for entry in self.table:
+            if entry is not None and entry != "DELETED" and entry[0] == author:
+                books.append(entry[1])
+        return sorted(books)
 
 
-library = HashTable()
+table = None
 
 
 def init():
-    global library
-    library = HashTable()
+    global table
+    table = Library()
 
 
 def addBook(author, title):
-    books = library.get(author) or []
-    if title not in books:
-        books.append(title)
-        books.sort()
-    library.insert(author, books)
+    table.addBook(author, title)
 
 
 def find(author, title):
-    books = library.get(author)
-    return title in books if books else False
+    return table.find(author, title)
 
 
 def delete(author, title):
-    books = library.get(author)
-    if books and title in books:
-        books.remove(title)
-        if books:
-            library.insert(author, books)
-        else:
-            library.delete(author)
+    table.delete(author, title)
 
 
 def findByAuthor(author):
-    return sorted(library.get(author) or [])
+    return table.findByAuthor(author)
