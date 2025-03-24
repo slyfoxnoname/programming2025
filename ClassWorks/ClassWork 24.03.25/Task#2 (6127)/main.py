@@ -49,16 +49,16 @@ if __name__ == "__main__":
     queue = RecursiveQueue()
     while True:
         command = input().strip().split()
-        if command[0] == "push":
-            print(queue.push(int(command[1])))
-        elif command[0] == "pop":
+        if command[0] == 'push' :
+            print(queue.push(command[1]))
+        elif command[0] == 'pop':
             print(queue.pop())
-        elif command[0] == "front":
+        elif command[0] == 'front':
             print(queue.front())
-        elif command[0] == "size":
+        elif command[0] == 'size':
             print(queue.size())
-        elif command[0] == "clear":
+        elif command[0] == 'clear':
             print(queue.clear())
-        elif command[0] == "exit":
+        elif command[0] == 'exit':
             print(queue.exit())
             break
