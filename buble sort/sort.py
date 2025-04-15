@@ -1,11 +1,24 @@
-def sort(array):
-    n = len(array)
-    for num_pass in range(n - 1, 0 ,-1):
-        for i in range(num_pass):
-            if array[i] > array[i + 1]:
-                array[i], array[i + 1] = array[i + 1], array[i]
-        print(array)
+class cat:
+    def __init__(self):
+        self.name = None
+        self.is_happy = None
+        self.age = None
 
-if __name__ == '__main__':
-    array = [8, 3, 7, 1, 5, 6, 2, 4,7 ,9 ,0]
-    print(sort(array))
+
+    def add_Cat(self,name , age ,is_happy):
+        self.name(name)
+        self.age(age)
+        self.is_happy(is_happy)
+
+    def print(self):
+        print(self.name, "age:", self.age, "Is Happy", self.is_happy)
+
+
+
+cat1 = cat()
+cat2 = cat()
+cat1.add_Cat("SOsi", 12, True)
+cat2.add_Cat("cat", 23, False)
+
+
+
