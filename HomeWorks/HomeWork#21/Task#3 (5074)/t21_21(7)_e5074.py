@@ -1,6 +1,6 @@
 def main():
     with open("input.txt") as f:
-        n, m = map(int, f.readline().split())  # ← читаємо з файлу
+        n, m = map(int, f.readline().split())
         degree = [0] * n
         for _ in range(m):
             a, b = map(int, f.readline().split())
